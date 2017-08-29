@@ -23,7 +23,7 @@ CTPQuoImage::operator T_MAP_BASEDATA&()
 
 int CTPQuoImage::GetRate( unsigned int nKind )
 {
-	if( m_mapRate.find( nKind ) == m_mapRate.end() )
+	if( m_mapRate.find( nKind ) != m_mapRate.end() )
 	{
 		return ::pow( (double)10, (int)m_mapRate[nKind] );
 	}
@@ -359,7 +359,7 @@ void CTPQuoImage::OnRspQryInstrument( CThostFtdcInstrumentField *pInstrument, CT
 				tagName.LotSize = 1;													///< 手比率
 			}
 
-			tagName.PriceTick = refSnap.PriceTick*m_mapRate[tagName.Kind]+0.5;							///< 行权价格(精确到厘) //[*放大倍数] 
+			tagName.PriceTick = refSnap.PriceTick*m_mapRate[tagName.Kind]+0.5;			///< 行权价格(精确到厘) //[*放大倍数] 
 
 			m_mapBasicData[std::string(pInstrument->InstrumentID)] = *pInstrument;
 			QuoCollector::GetCollector()->OnImage( 138, (char*)&tagName, sizeof(tagName), bIsLast );
